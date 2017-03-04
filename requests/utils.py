@@ -17,6 +17,7 @@ import os
 import re
 import socket
 import struct
+import random
 import warnings
 
 from . import __version__
@@ -685,11 +686,14 @@ def default_headers():
     """
     :rtype: requests.structures.CaseInsensitiveDict
     """
+    ip = ".".join(map(str, (random.randint(0, 255) 
+                        for _ in range(4))))
     return CaseInsensitiveDict({
         'User-Agent': default_user_agent(),
         'Accept-Encoding': ', '.join(('gzip', 'deflate')),
         'Accept': '*/*',
         'Connection': 'keep-alive',
+        'X-Forwarded-For': ip
     })
 
 
